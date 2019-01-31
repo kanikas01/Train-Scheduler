@@ -2,7 +2,8 @@
 //  Wait until DOM is loaded
 $(document).ready(function () {
   
-  // Initialize Firebase
+  // ---------- Initialize Firebase ---------- //
+
   var config = {
     apiKey: "AIzaSyB8KYO0f98nGoqdEVfFhYinq6ux-1cWuNY",
     authDomain: "train-scheduler-63d00.firebaseapp.com",
@@ -11,30 +12,37 @@ $(document).ready(function () {
     storageBucket: "train-scheduler-63d00.appspot.com",
     messagingSenderId: "1059878096912"
   };
+  
   firebase.initializeApp(config);
   var database = firebase.database();
 
-  // Selectors
+
+  // ---------- Selectors ---------- //
+
   var selectors = {
     button: "#add-train-btn",
     trainTable: "#train-table"
   };
 
-  // Classes
+
+  // ---------- Classes ---------- //
+
   classes = {};
 
-  // Events
 
+  // ---------- Events ---------- //
+
+  // Click submit button to add new train to db
   $(selectors.button).on("click", function(event) {
     event.preventDefault();
 
-    // Grabs user input
+    // Grab user input
     var trainName = $("#train-name-input").val().trim();
     var trainDestination = $("#destination-input").val().trim();
     var firstTrainTime = moment($("#first-train-time-input").val().trim(), "HH:mm").format("X");
     var trainFrequency = $("#frequency-input").val().trim();
 
-    // Creates temporary object for holding train data
+    // Create temporary object for holding train data
     var newTrain = {
       train: trainName,
       destination: trainDestination,
@@ -42,35 +50,41 @@ $(document).ready(function () {
       frequency: trainFrequency
     };
 
-    // Uploads train data to the database
+    // Upload train data to the database
     database.ref().push(newTrain);
 
-    // Clears all of the text-boxes
+    // Clear all of the text-boxes
     $("#train-name-input").val("");
     $("#destination-input").val("");
     $("#first-train-time-input").val("");
     $("#frequency-input").val("");
   });
 
+  // Get db info to populate the current train schedule
   database.ref().on("child_added", function (snapshot) {
+    // Get values from snapshot
     var train = snapshot.val().train;
     var destination = snapshot.val().destination;
     var firstJourney = snapshot.val().firstJourney;
     var frequency = snapshot.val().frequency;
 
-    var newRow = $("<tr><td>" + train + "</td>" +
-      "<td>" + destination + "</td>" +
-      "<td>" + frequency + "</td>" +
-      "<td>" + "Some value" + "</td>" +
-      "<td>" + "Some other value" + "</td></tr>");
+    // Create new row
+    var newRow = $("<tr>").append(
+      $("<td>").text(train),
+      $("<td>").text(destination),
+      $("<td>").text(frequency),
+      $("<td>").text("Some value"),
+      $("<td>").text("Some other value")
+    );
 
+    // Add new row to table
     $(selectors.trainTable).append(newRow);
 
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
 
-  // Helpers
+  // ---------- Helpers ---------- //
 
 
 });
