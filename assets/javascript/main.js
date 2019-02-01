@@ -1,7 +1,7 @@
 
 //  Wait until DOM is loaded
 $(document).ready(function () {
-  
+
   // ---------- Initialize Firebase ---------- //
 
   var config = {
@@ -12,7 +12,7 @@ $(document).ready(function () {
     storageBucket: "train-scheduler-63d00.appspot.com",
     messagingSenderId: "1059878096912"
   };
-  
+
   firebase.initializeApp(config);
   var database = firebase.database();
 
@@ -33,7 +33,7 @@ $(document).ready(function () {
   // ---------- Events ---------- //
 
   // Click submit button to add new train to db
-  $(selectors.button).on("click", function(event) {
+  $(selectors.button).on("click", function (event) {
     event.preventDefault();
 
     // Grab user input
@@ -46,12 +46,17 @@ $(document).ready(function () {
     var newTrain = {
       train: trainName,
       destination: trainDestination,
-      firstJourney: firstTrainTime,
+      firstTrainTime: firstTrainTime,
       frequency: trainFrequency
     };
 
     // Upload train data to the database
-    database.ref().push(newTrain);
+    if (trainName && trainDestination && trainFrequency) {
+      database.ref().push(newTrain);
+    }
+    else {
+      alert("Invalid entry - please verify your information");
+    }
 
     // Clear all of the text-boxes
     $("#train-name-input").val("");
@@ -65,7 +70,7 @@ $(document).ready(function () {
     // Get values from snapshot
     var train = snapshot.val().train;
     var destination = snapshot.val().destination;
-    var firstJourney = snapshot.val().firstJourney;
+    var firstTrainTime = snapshot.val().firstTrainTime;
     var frequency = snapshot.val().frequency;
 
     // Create new row
@@ -73,8 +78,8 @@ $(document).ready(function () {
       $("<td>").text(train),
       $("<td>").text(destination),
       $("<td>").text(frequency),
-      $("<td>").text("Some value"),
-      $("<td>").text("Some other value")
+      $("<td>").text(nextArrival(firstTrainTime, frequency)),
+      $("<td>").text(minutesAway(firstTrainTime, frequency))
     );
 
     // Add new row to table
@@ -84,7 +89,23 @@ $(document).ready(function () {
     console.log("The read failed: " + errorObject.code);
   });
 
+  
   // ---------- Helpers ---------- //
 
+  function nextArrival(initialVoyage, trainFrequency) {
+    firstTrip = moment(initialVoyage, "X");
+    while (firstTrip.isBefore(moment())) {
+      firstTrip.add(trainFrequency, "minutes");
+    }
+    return firstTrip.format("h:mm A");
+  }
+
+  function minutesAway(initialVoyage, trainFrequency) {
+    firstTrip = moment(initialVoyage, "X");
+    while (firstTrip.isBefore(moment())) {
+      firstTrip.add(trainFrequency, "minutes");
+    }
+    return firstTrip.diff(moment(), 'minutes');
+  }
 
 });
