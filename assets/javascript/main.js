@@ -51,7 +51,8 @@ $(document).ready(function () {
     };
 
     // Upload train data to the database
-    if (trainName && trainDestination && trainFrequency) {
+    // TODO better user input validation
+    if (trainName && trainDestination && firstTrainTime && trainFrequency) {
       database.ref().push(newTrain);
     }
     else {
@@ -89,7 +90,7 @@ $(document).ready(function () {
     console.log("The read failed: " + errorObject.code);
   });
 
-  
+
   // ---------- Helpers ---------- //
 
   function nextArrival(initialVoyage, trainFrequency) {
