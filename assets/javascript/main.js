@@ -98,13 +98,13 @@ $(document).ready(function () {
     while (nextTrip.isBefore(moment())) {
       nextTrip.add(trainFrequency, "minutes");
     }
-    // Returns a moment object
+    // Returns next arrival time as a moment object
     return nextTrip;
   }
 
   function minutesAway(initialVoyage, trainFrequency) {
     var nextTrip = nextArrival(initialVoyage, trainFrequency);
-    // Returns a number
+    // Returns minutes to next arrival as a number
     return nextTrip.diff(moment(), 'minutes');
   }
 
