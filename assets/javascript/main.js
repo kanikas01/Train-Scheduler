@@ -24,6 +24,14 @@ $(document).ready(function () {
     trainTable: "#train-table"
   };
 
+  // Regex patterns for input validation
+  var patterns = {
+    trainNamePattern: /\w+/,
+    trainDestinationPattern: /\w+/,
+    trainTimePattern: /\d{1,2}:\d{2}/,
+    trainFrequencyPattern: /\d+/
+  }
+
 
   // ---------- Classes ---------- //
 
@@ -50,14 +58,31 @@ $(document).ready(function () {
       frequency: trainFrequency
     };
 
+    // Input validation
+    if (!patterns.trainNamePattern.test(trainName)) {
+      alert('Train name must not be empty');
+      $("#train-name-input").val("");
+      return;
+    }
+    if (!patterns.trainDestinationPattern.test(trainDestination)) {
+      alert('Train destination must not be empty');
+      $("#destination-input").val("");
+      return;
+    } 
+    // Test against the original text field string instead of the moment object
+    if (!patterns.trainTimePattern.test($("#first-train-time-input").val().trim())) { 
+      alert('First train time must use the following format: HH:mm');
+      $("#first-train-time-input").val("");
+      return;
+    }
+    if (!patterns.trainFrequencyPattern.test(trainFrequency)) {
+      alert('Train frequency must be a number');
+      $("#frequency-input").val("");
+      return;
+    }
+    
     // Upload train data to the database
-    // TODO better user input validation
-    if (trainName && trainDestination && firstTrainTime && trainFrequency) {
-      database.ref().push(newTrain);
-    }
-    else {
-      alert("Invalid entry - please verify your information");
-    }
+    database.ref().push(newTrain);
 
     // Clear all of the text-boxes
     $("#train-name-input").val("");
@@ -93,19 +118,19 @@ $(document).ready(function () {
 
   // ---------- Helpers ---------- //
 
+  // Returns a moment object representing the next arrival time
   function nextArrival(initialVoyage, trainFrequency) {
     var nextTrip = moment(initialVoyage, "X");
     var now = moment();
     while (nextTrip.isBefore(now)) {
       nextTrip.add(trainFrequency, "minutes");
     }
-    // Returns next arrival time as a moment object
     return nextTrip;
   }
 
+  // Returns minutes to next arrival as a number
   function minutesAway(initialVoyage, trainFrequency) {
-    var nextTrip = nextArrival(initialVoyage, trainFrequency);
-    // Returns minutes to next arrival as a number
+    var nextTrip = nextArrival(initialVoyage, trainFrequency);   
     return nextTrip.diff(moment(), 'minutes');
   }
 
