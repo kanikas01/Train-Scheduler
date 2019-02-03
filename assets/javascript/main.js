@@ -79,7 +79,7 @@ $(document).ready(function () {
       $("<td>").text(train),
       $("<td>").text(destination),
       $("<td>").text(frequency),
-      $("<td>").text(nextArrival(firstTrainTime, frequency)),
+      $("<td>").text(nextArrival(firstTrainTime, frequency).format("h:mm A")),
       $("<td>").text(minutesAway(firstTrainTime, frequency))
     );
 
@@ -94,19 +94,18 @@ $(document).ready(function () {
   // ---------- Helpers ---------- //
 
   function nextArrival(initialVoyage, trainFrequency) {
-    firstTrip = moment(initialVoyage, "X");
-    while (firstTrip.isBefore(moment())) {
-      firstTrip.add(trainFrequency, "minutes");
+    var nextTrip = moment(initialVoyage, "X");
+    while (nextTrip.isBefore(moment())) {
+      nextTrip.add(trainFrequency, "minutes");
     }
-    return firstTrip.format("h:mm A");
+    // Returns a moment object
+    return nextTrip;
   }
 
   function minutesAway(initialVoyage, trainFrequency) {
-    firstTrip = moment(initialVoyage, "X");
-    while (firstTrip.isBefore(moment())) {
-      firstTrip.add(trainFrequency, "minutes");
-    }
-    return firstTrip.diff(moment(), 'minutes');
+    var nextTrip = nextArrival(initialVoyage, trainFrequency);
+    // Returns a number
+    return nextTrip.diff(moment(), 'minutes');
   }
 
 });
