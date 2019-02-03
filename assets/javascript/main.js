@@ -95,7 +95,8 @@ $(document).ready(function () {
 
   function nextArrival(initialVoyage, trainFrequency) {
     var nextTrip = moment(initialVoyage, "X");
-    while (nextTrip.isBefore(moment())) {
+    var now = moment();
+    while (nextTrip.isBefore(now)) {
       nextTrip.add(trainFrequency, "minutes");
     }
     // Returns next arrival time as a moment object
