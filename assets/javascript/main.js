@@ -128,7 +128,7 @@ $(document).ready(function () {
     return nextTrip;
   }
 
-  // Returns minutes to next arrival as a number
+  // Returns a number representing minutes to next arrival
   function minutesAway(initialVoyage, trainFrequency) {
     var nextTrip = nextArrival(initialVoyage, trainFrequency);   
     return nextTrip.diff(moment(), 'minutes');
