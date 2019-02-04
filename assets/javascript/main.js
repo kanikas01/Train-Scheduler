@@ -20,8 +20,10 @@ $(document).ready(function () {
   // ---------- Selectors ---------- //
 
   var selectors = {
-    button: "#add-train-btn",
-    trainTable: "#train-table"
+    button: '#add-train-btn',
+    trainTable: '#train-table',
+    modalBody: '#modal-body',
+    modalAlert: '#modal-alert'
   };
 
   // Regex patterns for input validation
@@ -60,24 +62,25 @@ $(document).ready(function () {
 
     // Input validation
     if (!patterns.trainNamePattern.test(trainName)) {
-      alert('Train name must not be empty');
-      $("#train-name-input").val("");
+      // alert('Train name must not be empty');
+      $(selectors.modalBody).text('Train name must not be empty.');
+      $(selectors.modalAlert).modal('show');
       return;
     }
     if (!patterns.trainDestinationPattern.test(trainDestination)) {
-      alert('Train destination must not be empty');
-      $("#destination-input").val("");
+      $(selectors.modalBody).text('Destination must not be empty.');
+      $(selectors.modalAlert).modal('show');
       return;
     } 
     // Test against the original text field string instead of the moment object
     if (!patterns.trainTimePattern.test($("#first-train-time-input").val().trim())) { 
-      alert('First train time must use the following format: HH:mm');
-      $("#first-train-time-input").val("");
+      $(selectors.modalBody).text('First Train Time must use the following format: HH:mm.');
+      $(selectors.modalAlert).modal('show');
       return;
     }
     if (!patterns.trainFrequencyPattern.test(trainFrequency)) {
-      alert('Train frequency must be a number');
-      $("#frequency-input").val("");
+      $(selectors.modalBody).text('Frequency must be a number.');
+      $(selectors.modalAlert).modal('show');
       return;
     }
     

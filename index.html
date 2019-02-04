@@ -17,7 +17,7 @@
     <div class="container">
     
       <!-- Jumbotron -->
-      <div class="jumbotron text-warning bg-dark p-2 border">
+      <div class="jumbotron text-warning bg-dark p-3 border">
         <h1 class="text-center">Anytime is Train Time</h1>
         <h3 class="text-center">Choo Choo. Chee Chee.</h3>
       </div>
@@ -73,18 +73,33 @@
                   <label for="frequency-input">Frequency (min)</label>
                   <input class="form-control" id="frequency-input" placeholder="" type="text">
                 </div>
-                <button class="btn btn-info float-left" id="add-train-btn">Submit</button>
+                <button class="btn btn-lg btn-warning border-dark float-left" id="add-train-btn">Submit</button>
               </form>
-    
+              
+              <!-- Modal -->
+              <div class="modal fade" id="modal-alert" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <h5 class="modal-title" id="modal-label">Error!</h5>
+                    </div>
+                    <div class="modal-body" id="modal-body"></div>
+                    <div class="modal-footer border-top-0">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    
     </div>
   </main>
 
   <!-- Include JavaScript here -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
   <script src="assets/javascript/main.js"></script>
 </body>
 </html>
