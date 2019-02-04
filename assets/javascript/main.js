@@ -1,5 +1,5 @@
 
-//  Wait until DOM is loaded
+// Wait until DOM is loaded
 $(document).ready(function () {
 
   // ---------- Initialize Firebase ---------- //
@@ -35,11 +35,6 @@ $(document).ready(function () {
   }
 
 
-  // ---------- Classes ---------- //
-
-  classes = {};
-
-
   // ---------- Events ---------- //
 
   // Click submit button to add new train to db
@@ -62,7 +57,6 @@ $(document).ready(function () {
 
     // Input validation
     if (!patterns.trainNamePattern.test(trainName)) {
-      // alert('Train name must not be empty');
       $(selectors.modalBody).text('Train Name must not be empty.');
       $(selectors.modalAlert).modal('show');
       return;
@@ -136,5 +130,5 @@ $(document).ready(function () {
     var nextTrip = nextArrival(initialVoyage, trainFrequency);   
     return nextTrip.diff(moment(), 'minutes');
   }
-
+  
 });
