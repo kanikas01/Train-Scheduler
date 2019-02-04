@@ -63,7 +63,7 @@ $(document).ready(function () {
     // Input validation
     if (!patterns.trainNamePattern.test(trainName)) {
       // alert('Train name must not be empty');
-      $(selectors.modalBody).text('Train name must not be empty.');
+      $(selectors.modalBody).text('Train Name must not be empty.');
       $(selectors.modalAlert).modal('show');
       return;
     }
