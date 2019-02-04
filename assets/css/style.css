@@ -1,0 +1,8 @@
+body {
+  background-image: url('../images/railroad_tracks.jpg');
+  background-attachment: fixed;
+}
+
+.card-header {
+  font-size: 1.5rem;
+}
