@@ -30,8 +30,8 @@ $(document).ready(function () {
   var patterns = {
     trainNamePattern: /\w+/,
     trainDestinationPattern: /\w+/,
-    trainTimePattern: /\d{1,2}:\d{2}/,
-    trainFrequencyPattern: /\d+/
+    trainTimePattern: /^\d{1,2}:\d{2}$/,
+    trainFrequencyPattern: /^\d+$/
   }
 
 
@@ -73,7 +73,7 @@ $(document).ready(function () {
       return;
     }
     if (!patterns.trainFrequencyPattern.test(trainFrequency)) {
-      $(selectors.modalBody).text('Frequency must be a number.');
+      $(selectors.modalBody).text('Frequency must contain only numbers.');
       $(selectors.modalAlert).modal('show');
       return;
     }
